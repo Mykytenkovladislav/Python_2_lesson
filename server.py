@@ -45,7 +45,7 @@ def reading_from_csv():
             print(f'{result[1]=}')
             result[2] += float(row[2].strip(' '))
             print(f'{result[2]=}')
-        result = [result[1] / result[0], result[2] / result[0]]
+        result = [(result[1] * 2.54) / result[0], (result[2] * 0.453592) / result[0]]
         return result
 
 
