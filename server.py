@@ -1,6 +1,7 @@
 import csv
 import os
 
+import requests
 from faker import Faker
 from flask import Flask, render_template
 
@@ -48,6 +49,12 @@ def reading_from_csv():
         return result
 
 
+def get_amount_of_astronauts():
+    r = requests.get('http://api.open-notify.org/astros.json')
+    astronauts = r.json().get('number')
+    return astronauts
+
+
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
@@ -56,17 +63,23 @@ def hello_world():
 @app.route('/requirements/')
 def requirements():
     requirements_data = requirements_reading()
-    return render_template('requirements.html', param=requirements_data)
+    return render_template('requirements.html', requirements_data=requirements_data)
 
 
 @app.route('/generate-users/')
 @app.route('/generate-users/<int:users_amount>')
 def generate_users(users_amount=100):
     accounts = generating_accounts(users_amount)
-    return render_template('generate-users.html', param=accounts)
+    return render_template('generate-users.html', accounts=accounts)
 
 
 @app.route('/mean/')
 def mean():
     middle_weight_height = reading_from_csv()
-    return render_template('mean.html', param=middle_weight_height)
+    return render_template('mean.html', middle_weight_height=middle_weight_height)
+
+
+@app.route('/space/')
+def space():
+    amount_of_astronauts = get_amount_of_astronauts()
+    return render_template('space.html', amount_of_astronauts=amount_of_astronauts)
