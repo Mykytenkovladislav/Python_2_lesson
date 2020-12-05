@@ -17,27 +17,25 @@ def generate_user(count=0):
         yield username, email, age
 
 
-def reading_json_file() -> list:
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    data_file = os.path.join(basedir, 'music.json')
-    with open(data_file, "r") as file:
-        albums_data = file.readline()
-        result_json = json.loads(str(albums_data))
-        return result_json
-
-
 def taking_data_from_json():
-    data: list = reading_json_file()
-    for artist in data:
-        pass
-
+    with open('music.json') as json_file:
+        data: dict = json.load(json_file)
+    for _ in data:
+        artist_name: str = data['name']
+        for album in data['albums']:
+            album_title: str = album['title']
+            for song in album['songs']:
+                song_title: str = song['title']
+                song_length: str = song['length']
+                song_genre: str = song['genre']
+                yield artist_name, album_title, song_title, song_length, song_genre
 
 
 def init_database():
     with sqlite3.connect(DEFAULT_PATH) as conn:
         with conn as cursor:
             cursor.execute(
-                """CREATE TABLE IF NOT EXISTS customers 
+                """CREATE TABLE IF NOT EXISTS customers
                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username VARCHAR(255) UNIQUE NOT NULL,
                 email VARCHAR(255) UNIQUE NOT NULL,
@@ -46,14 +44,22 @@ def init_database():
             cursor.execute(
                 """CREATE TABLE IF NOT EXISTS tracks 
                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username VARCHAR(255) UNIQUE NOT NULL,
-                email VARCHAR(255) UNIQUE NOT NULL,
-                age INTEGER NOT NULL DEFAULT 0)"""
+                artist VARCHAR(255) UNIQUE NOT NULL,
+                album_title VARCHAR(255) UNIQUE NOT NULL,
+                song_title VARCHAR(255) UNIQUE NOT NULL,
+                song_length VARCHAR(255) UNIQUE NOT NULL,
+                song_genre VARCHAR(255) UNIQUE NOT NULL)"""
             )
-            for customers in generate_user(25):
+            for customer in generate_user(25):
                 cursor.execute(
                     """INSERT INTO customers(username, email, age) VALUES (?, ?, ?)""",
-                    customers
+                    customer
+                )
+            for track in generate_user(25):
+                cursor.execute(
+                    """INSERT INTO tracks(artist, album_title, song_title, song_length, song_genre) VALUES (?, ?, ?, 
+                    ?, ?)""",
+                    track
                 )
 
 
