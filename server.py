@@ -127,8 +127,11 @@ def tracks_genre(genre='Rock'):
 
 @app.route('/tracks-sec/')
 def tracks_sec():
+    title_and_duration = []
     with sqlite3.connect(DATABASE) as conn:
         with conn as cursor:
-            for row in cursor.execute(f"SELECT COUNT (id) FROM tracks WHERE song_genre = '{genre}'"):
-                count = row[0]
-    return render_template("tracks_sec.html", genre=genre, count=count)
+            for row in cursor.execute(f"SELECT song_title, song_length FROM tracks"):
+                minutes_and_seconds = row[1].split(':')
+                duration_in_seconds = (int(minutes_and_seconds[0])*60) + int(minutes_and_seconds[1])
+                title_and_duration.append((row[0], duration_in_seconds))
+    return render_template("tracks_sec.html", title_and_duration=title_and_duration)
