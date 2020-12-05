@@ -4,8 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+click = "==7.1.2"
+flask = "==1.1.2"
+faker = "==5.0.0"
+requests = "~=2.25.0"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.8"
