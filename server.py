@@ -114,3 +114,21 @@ def tracks():
             for row in cursor.execute("SELECT COUNT (id) FROM tracks"):
                 count = row[0]
     return render_template("tracks.html", count=count)
+
+
+@app.route('/tracks/<genre>')
+def tracks_genre(genre='Rock'):
+    with sqlite3.connect(DATABASE) as conn:
+        with conn as cursor:
+            for row in cursor.execute(f"SELECT COUNT (id) FROM tracks WHERE song_genre = '{genre}'"):
+                count = row[0]
+    return render_template("genre.html", genre=genre, count=count)
+
+
+@app.route('/tracks-sec/')
+def tracks_sec():
+    with sqlite3.connect(DATABASE) as conn:
+        with conn as cursor:
+            for row in cursor.execute(f"SELECT COUNT (id) FROM tracks WHERE song_genre = '{genre}'"):
+                count = row[0]
+    return render_template("tracks_sec.html", genre=genre, count=count)
