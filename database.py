@@ -12,9 +12,10 @@ DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'db.sqlite3')
 def generate_user(count=0):
     for _ in range(count):
         username = fake.name()
+        name_and_surname: list = username.split(' ', 1)
         email = f"{username.lower().replace(' ', '_')}@example.com"
         age = randint(18, 99)
-        yield username, email, age
+        yield name_and_surname[0], name_and_surname[1], email, age
 
 
 def taking_data_from_json():
@@ -37,7 +38,8 @@ def init_database():
             cursor.execute(
                 """CREATE TABLE IF NOT EXISTS customers
                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username VARCHAR(255) UNIQUE NOT NULL,
+                first_name VARCHAR(255) NOT NULL,
+                surname VARCHAR(255) NOT NULL,
                 email VARCHAR(255) UNIQUE NOT NULL,
                 age INTEGER NOT NULL DEFAULT 0)"""
             )
@@ -52,10 +54,11 @@ def init_database():
             )
             for customer in generate_user(25):
                 cursor.execute(
-                    """INSERT INTO customers(username, email, age) VALUES (?, ?, ?)""",
+                    """INSERT INTO customers(first_name, surname, email, age) VALUES (?, ?, ?, ?)""",
                     customer
                 )
             for track in taking_data_from_json():
+                # TODO Ask why it executes twice (duplicated records in table "tracks"
                 cursor.execute(
                     """INSERT INTO tracks(artist, album_title, song_title, song_length, song_genre) VALUES 
                     (?, ?, ?, ?, ?)""",
