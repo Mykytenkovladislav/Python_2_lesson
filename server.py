@@ -1,5 +1,6 @@
 import csv
 import os
+import sqlite3
 
 import requests
 from faker import Faker
@@ -7,6 +8,8 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 fake = Faker()
+
+DATABASE = os.path.join(os.path.dirname(__file__), 'db.sqlite3')
 
 
 def requirements_reading():
@@ -56,8 +59,13 @@ def get_amount_of_astronauts():
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def index():
+    users = []
+    with sqlite3.connect(DATABASE) as conn:
+        with conn as cursor:
+            for row in cursor.execute("SELECT id,first_name, surname,email,age FROM customers"):
+                users.append(row)
+    return render_template("index.html", users=users)
 
 
 @app.route('/requirements/')
@@ -83,3 +91,16 @@ def mean():
 def space():
     amount_of_astronauts = get_amount_of_astronauts()
     return render_template('space.html', amount_of_astronauts=amount_of_astronauts)
+
+
+@app.route('/names/')
+def names():
+    first_names: list = []
+    with sqlite3.connect(DATABASE) as conn:
+        with conn as cursor:
+            for row in cursor.execute("SELECT DISTINCT first_name FROM customers"):
+                first_names.append(row)
+    amount_of_unique_first_names = len(first_names)
+    return render_template("names.html",
+                           amount_of_unique_first_names=amount_of_unique_first_names,
+                           first_names=first_names)

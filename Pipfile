@@ -8,6 +8,7 @@ click = "==7.1.2"
 flask = "==1.1.2"
 faker = "==5.0.0"
 requests = "~=2.25.0"
+ipython = "*"
 
 [dev-packages]
 
