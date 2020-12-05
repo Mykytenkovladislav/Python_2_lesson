@@ -1,5 +1,6 @@
 import csv
 import os
+import sqlite3
 
 import requests
 from faker import Faker
@@ -7,6 +8,8 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 fake = Faker()
+
+DATABASE = os.path.join(os.path.dirname(__file__), 'db.sqlite3')
 
 
 def requirements_reading():
@@ -56,8 +59,13 @@ def get_amount_of_astronauts():
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def index():
+    users = []
+    with sqlite3.connect(DATABASE) as conn:
+        with conn as cursor:
+            for row in cursor.execute("SELECT id,first_name, surname,email,age FROM customers"):
+                users.append(row)
+    return render_template("index.html", users=users)
 
 
 @app.route('/requirements/')
@@ -83,3 +91,62 @@ def mean():
 def space():
     amount_of_astronauts = get_amount_of_astronauts()
     return render_template('space.html', amount_of_astronauts=amount_of_astronauts)
+
+
+@app.route('/names/')
+def names():
+    first_names: list = []
+    with sqlite3.connect(DATABASE) as conn:
+        with conn as cursor:
+            for row in cursor.execute("SELECT DISTINCT first_name FROM customers"):
+                first_names.append(row)
+    amount_of_unique_first_names = len(first_names)
+    return render_template("names.html",
+                           amount_of_unique_first_names=amount_of_unique_first_names,
+                           first_names=first_names)
+
+
+@app.route('/tracks/')
+def tracks():
+    count = 0
+    with sqlite3.connect(DATABASE) as conn:
+        with conn as cursor:
+            for row in cursor.execute("SELECT COUNT (id) FROM tracks"):
+                count = row[0]
+    return render_template("tracks.html", count=count)
+
+
+@app.route('/tracks/<genre>')
+def tracks_genre(genre='Rock'):
+    with sqlite3.connect(DATABASE) as conn:
+        with conn as cursor:
+            for row in cursor.execute(f"SELECT COUNT (id) FROM tracks WHERE song_genre = '{genre}'"):
+                count = row[0]
+    return render_template("genre.html", genre=genre, count=count)
+
+
+@app.route('/tracks-sec/')
+def tracks_sec():
+    title_and_duration = []
+    with sqlite3.connect(DATABASE) as conn:
+        with conn as cursor:
+            for row in cursor.execute(f"SELECT song_title, song_length FROM tracks"):
+                minutes_and_seconds = row[1].split(':')
+                duration_in_seconds = (int(minutes_and_seconds[0]) * 60) + int(minutes_and_seconds[1])
+                title_and_duration.append((row[0], duration_in_seconds))
+    return render_template("tracks_sec.html", title_and_duration=title_and_duration)
+
+
+@app.route('/tracks-sec/statistics/')
+def tracks_sec_statistic():
+    total_duration = 0
+    average_duration = 0
+    counter = 0
+    with sqlite3.connect(DATABASE) as conn:
+        with conn as cursor:
+            for row in cursor.execute(f"SELECT song_length FROM tracks"):
+                minutes_and_seconds = row[0].split(':')
+                total_duration += (int(minutes_and_seconds[0]) * 60) + int(minutes_and_seconds[1])
+                counter += 1
+            average_duration: float = total_duration / counter
+    return render_template("tracks_sec_statistic.html", total_duration=total_duration, average_duration=average_duration)

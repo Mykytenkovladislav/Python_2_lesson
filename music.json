@@ -1,0 +1,117 @@
+{
+  "name": "Radiohead",
+  "albums": [
+    {
+      "title": "The King of Limbs",
+      "songs": [
+        {
+          "title": "Bloom",
+          "length": "5:15",
+          "genre": "Rock"
+        },
+        {
+          "title": "Morning Mr Magpie",
+          "length": "4:41",
+          "genre": "Rock"
+        },
+        {
+          "title": "Little by Little",
+          "length": "4:27",
+          "genre": "Rock"
+        },
+        {
+          "title": "Feral",
+          "length": "3:13",
+          "genre": "Rock"
+        },
+        {
+          "title": "Lotus Flower",
+          "length": "5:01",
+          "genre": "Rock"
+        },
+        {
+          "title": "Codex",
+          "length": "4:47",
+          "genre": "Rock"
+        },
+        {
+          "title": "Give Up the Ghost",
+          "length": "4:50",
+          "genre": "Rock"
+        },
+        {
+          "title": "Separator",
+          "length": "5:20",
+          "genre": "Rock"
+        }
+      ],
+      "description": "\n\tThe King of Limbs is the eighth studio album by English Rock band Radiohead, produced by Nigel Godrich. It was self-released on 18 February 2011 as a download in MP3 and WAV formats, followed by physical CD and 12\" vinyl releases on 28 March, a wider digital release via AWAL, and a special \"newspaper\" edition on 9 May 2011. The physical editions were released through the band's Ticker Tape imprint on XL in the United Kingdom, TBD in the United States, and Hostess Entertainment in Japan.\n      "
+    },
+    {
+      "title": "OK Computer",
+      "songs": [
+        {
+          "title": "Airbag",
+          "length": "4:44",
+          "genre": "Psy-Rock"
+        },
+        {
+          "title": "Paranoid Android",
+          "length": "6:23",
+          "genre": "Psy-Rock"
+        },
+        {
+          "title": "Subterranean Homesick Alien",
+          "length": "4:27",
+          "genre": "Psy-Rock"
+        },
+        {
+          "title": "Exit Music (For a Film)",
+          "length": "4:24",
+          "genre": "Psy-Rock"
+        },
+        {
+          "title": "Let Down",
+          "length": "4:59",
+          "genre": "Psy-Rock"
+        },
+        {
+          "title": "Karma Police",
+          "length": "4:21",
+          "genre": "Psy-Rock"
+        },
+        {
+          "title": "Fitter Happier",
+          "length": "1:57",
+          "genre": "Psy-Rock"
+        },
+        {
+          "title": "Electioneering",
+          "length": "3:50",
+          "genre": "Psy-Rock"
+        },
+        {
+          "title": "Climbing Up the Walls",
+          "length": "4:45",
+          "genre": "Psy-Rock"
+        },
+        {
+          "title": "No Surprises",
+          "length": "3:48",
+          "genre": "Psy-Rock"
+        },
+        {
+          "title": "Lucky",
+          "length": "4:19",
+          "genre": "Psy-Rock"
+        },
+        {
+          "title": "The Tourist",
+          "length": "5:24",
+          "genre": "Psy-Rock"
+        }
+      ],
+      "description": "\n\tOK Computer is the third studio album by the English alternative Rock band Radiohead, released on 16 June 1997 on Parlophone in the United Kingdom and 1 July 1997 by Capitol Records in the United States. It marks a deliberate attempt by the band to move away from the introspective guitar-oriented sound of their previous album The Bends. Its layered sound and wide range of influences set it apart from many of the Britpop and alternative Rock bands popular at the time and laid the groundwork for Radiohead's later, more experimental work.\n      "
+    }
+  ]
+}

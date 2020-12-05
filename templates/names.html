@@ -1,0 +1,7 @@
+<title>Unique names</title>
+<b>Amount of unique names: {{amount_of_unique_first_names}} </b>
+<ul>
+{% for name in first_names %}
+  <li>{{ name }}</li>
+{% endfor %}
+</ul>
