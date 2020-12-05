@@ -44,21 +44,21 @@ def init_database():
             cursor.execute(
                 """CREATE TABLE IF NOT EXISTS tracks 
                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                artist VARCHAR(255) UNIQUE NOT NULL,
-                album_title VARCHAR(255) UNIQUE NOT NULL,
-                song_title VARCHAR(255) UNIQUE NOT NULL,
-                song_length VARCHAR(255) UNIQUE NOT NULL,
-                song_genre VARCHAR(255) UNIQUE NOT NULL)"""
+                artist VARCHAR(255) NOT NULL,
+                album_title VARCHAR(255) NOT NULL,
+                song_title VARCHAR(255) NOT NULL,
+                song_length VARCHAR(255) NOT NULL,
+                song_genre VARCHAR(255) NOT NULL)"""
             )
             for customer in generate_user(25):
                 cursor.execute(
                     """INSERT INTO customers(username, email, age) VALUES (?, ?, ?)""",
                     customer
                 )
-            for track in generate_user(25):
+            for track in taking_data_from_json():
                 cursor.execute(
-                    """INSERT INTO tracks(artist, album_title, song_title, song_length, song_genre) VALUES (?, ?, ?, 
-                    ?, ?)""",
+                    """INSERT INTO tracks(artist, album_title, song_title, song_length, song_genre) VALUES 
+                    (?, ?, ?, ?, ?)""",
                     track
                 )
 
