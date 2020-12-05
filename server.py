@@ -104,3 +104,13 @@ def names():
     return render_template("names.html",
                            amount_of_unique_first_names=amount_of_unique_first_names,
                            first_names=first_names)
+
+
+@app.route('/tracks/')
+def tracks():
+    count = 0
+    with sqlite3.connect(DATABASE) as conn:
+        with conn as cursor:
+            for row in cursor.execute("SELECT COUNT (id) FROM tracks"):
+                count = row[0]
+    return render_template("tracks.html", count=count)
