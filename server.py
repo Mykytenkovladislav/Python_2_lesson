@@ -123,7 +123,7 @@ def tracks_genre(genre='Rock'):
             genre_value = (genre,)
             qs = cursor.execute(f"SELECT COUNT (id) FROM tracks WHERE song_genre = ?", genre_value)
             count = qs.fetchone()
-    return render_template("genre.html", genre=genre, count=count)
+    return render_template("genre.html", genre=genre, count=count[0])
 
 
 @app.route('/tracks-sec/')
@@ -144,5 +144,5 @@ def tracks_sec_statistic():
             average_duration = qs.fetchone()
             qs = cursor.execute(f"SELECT SUM(song_length) FROM tracks")
             total_duration = qs.fetchone()
-    return render_template("tracks_sec_statistic.html", total_duration=total_duration,
-                           average_duration=average_duration)
+    return render_template("tracks_sec_statistic.html", total_duration=total_duration[0],
+                           average_duration=average_duration[0])
