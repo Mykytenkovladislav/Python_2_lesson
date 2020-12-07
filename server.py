@@ -98,7 +98,7 @@ def names():
     first_names: list = []
     with sqlite3.connect(DATABASE) as conn:
         with conn as cursor:
-            for row in cursor.execute("SELECT DISTINCT first_name FROM customers"):
+            for row in cursor.execute("SELECT COUNT(DISTINCT first_name) FROM customers"):
                 first_names.append(row)
     amount_of_unique_first_names = len(first_names)
     return render_template("names.html",
@@ -121,8 +121,8 @@ def tracks_genre(genre='Rock'):
     with sqlite3.connect(DATABASE) as conn:
         with conn as cursor:
             genre_value = (genre,)
-            for row in cursor.execute(f"SELECT COUNT (id) FROM tracks WHERE song_genre = ?", genre_value):
-                count = row[0]
+            qs = cursor.execute(f"SELECT COUNT (id) FROM tracks WHERE song_genre = ?", genre_value)
+            count = qs.fetchone()
     return render_template("genre.html", genre=genre, count=count)
 
 
@@ -140,9 +140,9 @@ def tracks_sec():
 def tracks_sec_statistic():
     with sqlite3.connect(DATABASE) as conn:
         with conn as cursor:
-            for row in cursor.execute(f"SELECT AVG(song_length) FROM tracks"):
-                average_duration = row[0]
-            for row in cursor.execute(f"SELECT SUM(song_length) FROM tracks"):
-                total_duration = row[0]
+            qs = cursor.execute(f"SELECT AVG(song_length) FROM tracks")
+            average_duration = qs.fetchone()
+            qs = cursor.execute(f"SELECT SUM(song_length) FROM tracks")
+            total_duration = qs.fetchone()
     return render_template("tracks_sec_statistic.html", total_duration=total_duration,
                            average_duration=average_duration)
