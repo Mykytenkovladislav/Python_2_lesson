@@ -120,7 +120,8 @@ def tracks():
 def tracks_genre(genre='Rock'):
     with sqlite3.connect(DATABASE) as conn:
         with conn as cursor:
-            for row in cursor.execute(f"SELECT COUNT (id) FROM tracks WHERE song_genre = '{genre}'"):
+            genre_value = (genre, )
+            for row in cursor.execute(f"SELECT COUNT (id) FROM tracks WHERE song_genre = ?", genre_value):
                 count = row[0]
     return render_template("genre.html", genre=genre, count=count)
 
@@ -135,7 +136,7 @@ def tracks_sec():
     return render_template("tracks_sec.html", title_and_duration=title_and_duration)
 
 
-@app.route('/tracks-sec/statistics/')
+@app.route('/tracks-sec/statistics/')  # TODO fix by COUNT and Average
 def tracks_sec_statistic():
     total_duration = 0
     average_duration = 0
