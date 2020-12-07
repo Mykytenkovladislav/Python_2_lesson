@@ -50,7 +50,7 @@ def init_database():
                 artist VARCHAR(255) NOT NULL,
                 album_title VARCHAR(255) NOT NULL,
                 song_title VARCHAR(255) NOT NULL,
-                song_length VARCHAR(255) NOT NULL,
+                song_length INTEGER NOT NULL,
                 song_genre VARCHAR(255) NOT NULL)"""
             )
             for customer in generate_user(25):
