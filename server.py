@@ -95,15 +95,11 @@ def space():
 
 @app.route('/names/')
 def names():
-    first_names: list = []
     with sqlite3.connect(DATABASE) as conn:
         with conn as cursor:
-            for row in cursor.execute("SELECT COUNT(DISTINCT first_name) FROM customers"):
-                first_names.append(row)
-    amount_of_unique_first_names = len(first_names)
-    return render_template("names.html",
-                           amount_of_unique_first_names=amount_of_unique_first_names,
-                           first_names=first_names)
+            qs = cursor.execute("SELECT COUNT(DISTINCT first_name) FROM customers")
+            amount_of_unique_first_names = qs.fetchone()
+    return render_template("names.html", amount_of_unique_first_names=amount_of_unique_first_names[0])
 
 
 @app.route('/tracks/')
@@ -111,9 +107,9 @@ def tracks():
     count = 0
     with sqlite3.connect(DATABASE) as conn:
         with conn as cursor:
-            for row in cursor.execute("SELECT COUNT (id) FROM tracks"):
-                count = row[0]
-    return render_template("tracks.html", count=count)
+            qs = cursor.execute("SELECT COUNT (id) FROM tracks")
+            count = qs.fetchone()
+    return render_template("tracks.html", count=count[0])
 
 
 @app.route('/tracks/<genre>')
