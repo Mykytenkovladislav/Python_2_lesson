@@ -27,7 +27,8 @@ def taking_data_from_json():
             album_title: str = album['title']
             for song in album['songs']:
                 song_title: str = song['title']
-                song_length: str = song['length']
+                song_length_min_and_sec: list = song['length'].split(':')
+                song_length: int = (int(song_length_min_and_sec[0]) * 60) + int(song_length_min_and_sec[1])
                 song_genre: str = song['genre']
                 yield artist_name, album_title, song_title, song_length, song_genre
 
